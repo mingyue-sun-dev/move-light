@@ -54,7 +54,12 @@ Supabase with RLS. Tables: `categories` (id, user_id, name, color) and `items` (
 
 ### Phase 1 MVP (complete)
 
-Auth, inventory CRUD, suitcase simulation, dashboard charts, landing page.
+- Email/password auth (signup, login, logout) with Supabase + protected route guard
+- Inventory CRUD: sortable table, add/edit modal, inline category creation with color picker, weight/tags/essential/notes fields
+- One-suitcase simulation: capacity slider (1–30 kg), greedy packing (essentials first, then by recency), packed/overflow lists, markdown checklist export
+- Dashboard: 4 metric cards (total items, essential ratio, category count, added this month) + category pie chart, essentials bar chart, inventory growth line chart
+- Landing page with hero, feature grid, and CTA
+- Responsive sidebar (hamburger on mobile), loading skeletons, light/dark theme via system preference
 
 ### Phase 1.5 — Quick Wins & Polish
 

@@ -5,6 +5,13 @@ import type { Item, Category } from "@/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+function friendlyError(msg: string): string {
+  if (msg.includes("row-level security")) return "Permission denied. Please sign in again.";
+  if (msg.includes("violates not-null")) return "Please fill in all required fields.";
+  if (msg.includes("violates foreign key")) return "Invalid category selected.";
+  return msg;
+}
+
 interface ItemFormProps {
   categories: Category[];
   item?: Item;
@@ -36,13 +43,23 @@ export function ItemForm({ categories, item, onClose }: ItemFormProps) {
     setError(null);
     setLoading(true);
 
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      setError("You must be signed in to add items.");
+      setLoading(false);
+      return;
+    }
+
     let finalCategoryId = categoryId || null;
 
     // Create new category if needed
     if (showNewCategory && newCategoryName.trim()) {
       const { data: newCat, error: catError } = await supabase
         .from("categories")
-        .insert({ name: newCategoryName.trim(), color: newCategoryColor })
+        .insert({ user_id: user.id, name: newCategoryName.trim(), color: newCategoryColor })
         .select()
         .single();
 
@@ -73,14 +90,14 @@ export function ItemForm({ categories, item, onClose }: ItemFormProps) {
         .update(payload)
         .eq("id", item.id);
       if (error) {
-        setError(error.message);
+        setError(friendlyError(error.message));
         setLoading(false);
         return;
       }
     } else {
-      const { error } = await supabase.from("items").insert(payload);
+      const { error } = await supabase.from("items").insert({ ...payload, user_id: user.id });
       if (error) {
-        setError(error.message);
+        setError(friendlyError(error.message));
         setLoading(false);
         return;
       }
