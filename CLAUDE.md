@@ -49,3 +49,43 @@ Supabase with RLS. Tables: `categories` (id, user_id, name, color) and `items` (
 - Server components by default; "use client" only for interactive components
 - Supabase client created per-request (server) or per-component (browser)
 - Design tokens as CSS custom properties consumed via Tailwind theme
+
+## Roadmap
+
+### Phase 1 MVP (complete)
+
+Auth, inventory CRUD, suitcase simulation, dashboard charts, landing page.
+
+### Phase 1.5 — Quick Wins & Polish
+
+- Seed demo data for new users on first login
+- Delete confirmation dialog for items
+- Toast notifications for CRUD actions
+- Category management page (edit/delete categories independently)
+- Item search and filtering (by category, essential, tags)
+- Bulk actions (select multiple items, bulk delete/tag)
+- Export inventory as CSV or JSON
+- Password reset flow
+- OAuth providers (Google, GitHub)
+- Dark mode toggle (currently system preference only)
+- Animations/transitions (page transitions, modal enter/exit)
+- Add Vitest with unit tests for packing algorithm
+- Deploy to Vercel
+
+### Phase 2 — Life Intelligence
+
+- Smart suggestions: flag items unused for 90+ days as declutter candidates
+- "Minimalism score" computed from item count, essential ratio, and turnover
+- Goal setting: target item count with progress tracking
+- Recurring reminders to review and declutter
+- Item timeline: history of additions and removals over time
+- Comparison view: snapshot your inventory month-over-month
+
+### Phase 3 — AI & Digital Life Tracking
+
+- AI-powered categorization: auto-suggest category and tags from item name
+- Natural language item entry ("add my blue north face jacket, 400g, essential")
+- Digital possessions tracking: subscriptions, accounts, cloud storage
+- AI declutter coach: personalized recommendations based on usage patterns
+- Photo attachments for items (Supabase Storage)
+- Shared suitcases: collaborative packing lists for trips

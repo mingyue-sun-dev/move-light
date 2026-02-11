@@ -2,20 +2,20 @@
 
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const supabase = createClient();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    setMessage(null);
     setLoading(true);
 
     const { error } = await supabase.auth.signUp({
@@ -29,8 +29,7 @@ export default function SignupPage() {
       return;
     }
 
-    setMessage("Check your email for a confirmation link.");
-    setLoading(false);
+    router.push("/dashboard");
   }
 
   return (
@@ -47,12 +46,6 @@ export default function SignupPage() {
           {error && (
             <div className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {error}
-            </div>
-          )}
-
-          {message && (
-            <div className="rounded-md bg-accent/10 px-3 py-2 text-sm text-accent">
-              {message}
             </div>
           )}
 
